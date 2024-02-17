@@ -9,17 +9,21 @@
     <version>1.x-SNAPSHOT</version>
     <packaging>war</packaging>
 
+    <parent>
+        <groupId>com.flowlogix</groupId>
+        <artifactId>payara-pom</artifactId>
+        <version>2</version>
+    </parent>
+
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>20</maven.compiler.release>
-        <jakartaee.version>10.0.0</jakartaee.version>
+        <checkstyle.skip>true</checkstyle.skip>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
-            <version>${jakartaee.version}</version>
+            <version>${jakarta.ee.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -41,13 +45,13 @@
         <dependency>
             <groupId>org.jboss.arquillian.junit5</groupId>
             <artifactId>arquillian-junit5-container</artifactId>
-            <version>1.7.0.Final</version>
+            <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>fish.payara.arquillian</groupId>
             <artifactId>arquillian-payara-server-remote</artifactId>
-            <version>3.0.alpha8</version>
+            <version>${arquillian.payara.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -62,21 +66,21 @@
             <dependency>
                 <groupId>com.flowlogix</groupId>
                 <artifactId>flowlogix-bom</artifactId>
-                <version>7.0.2</version>
+                <version>8.0.1</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.7.0.Final</version>
+                <version>${arquillian.version}</version>
                 <type>pom</type>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>
                 <artifactId>shrinkwrap-resolver-bom</artifactId>
-                <version>3.2.1</version>
+                <version>3.3.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -87,16 +91,11 @@
         <plugins>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.1.2</version>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <arquillian.launch>${arquillian.launch}</arquillian.launch>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
         </plugins>
     </build>
